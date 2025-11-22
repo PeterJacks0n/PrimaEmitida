@@ -28,35 +28,6 @@ namespace WebServicesPrimaEmitida.Controllers
             }
         }
 
-        // POST: api/prima/cargar
-        [HttpPost]
-        [Route("cargar")]
-        public IHttpActionResult CargarDatosTransaccionales([FromBody] List<DatosTransaccionales> datos)
-        {
-            try
-            {
-                if (datos == null || datos.Count == 0)
-                {
-                    return BadRequest("No se recibieron datos para procesar");
-                }
-
-                bool resultado = new DatosTransaccionalesLN().CargarDatos(datos);
-
-                if (resultado)
-                {
-                    return Ok(new { mensaje = "Datos cargados exitosamente", total = datos.Count });
-                }
-                else
-                {
-                    return InternalServerError();
-                }
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
         // POST: api/prima/procesar
         [HttpPost]
         [Route("procesar")]

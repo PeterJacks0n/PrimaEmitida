@@ -28,7 +28,7 @@ namespace PrimaEmitida.ClienteWeb.Controllers
                     client.Headers[HttpRequestHeader.ContentType] = JsonMediaType;
                     client.Encoding = UTF8Encoding.UTF8;
 
-                    string url = RutaApi + "prima/referencia";
+                    string url = RutaApi + "prima/referencia";  // ← Correcto
                     var respuesta = client.DownloadString(new Uri(url));
                     datos = JsonConvert.DeserializeObject<List<DatosReferencia>>(respuesta);
                 }
@@ -39,49 +39,6 @@ namespace PrimaEmitida.ClienteWeb.Controllers
             }
 
             return View(datos);
-        }
-
-        // GET: Prima/Cargar
-        public ActionResult Cargar()
-        {
-            return View();
-        }
-
-        // POST: Prima/ProcesarArchivo
-        [HttpPost]
-        public ActionResult ProcesarArchivo(/* Aquí recibiremos el archivo Excel */)
-        {
-            try
-            {
-                // TODO: Implementar lectura de Excel
-                // Por ahora datos de prueba
-                List<DatosTransaccionales> datos = new List<DatosTransaccionales>
-                {
-                    new DatosTransaccionales { PolTxtPresentacion = "SOBREVIVENCIA", PolNumPrima = 24567289.33M },
-                    new DatosTransaccionales { PolTxtPresentacion = "INVALIDEZ", PolNumPrima = 100000M },
-                    new DatosTransaccionales { PolTxtPresentacion = "INVALIDEZ PARCIAL", PolNumPrima = 100000M },
-                    new DatosTransaccionales { PolTxtPresentacion = "INVALIDEZ TOTAL", PolNumPrima = 91456.39M },
-                    new DatosTransaccionales { PolTxtPresentacion = "", PolNumPrima = 50000M }, // Este se omitirá
-                };
-
-                using (WebClient client = new WebClient())
-                {
-                    client.Headers[HttpRequestHeader.ContentType] = JsonMediaType;
-                    client.Encoding = UTF8Encoding.UTF8;
-
-                    var jsonDatos = JsonConvert.SerializeObject(datos);
-                    string url = RutaApi + "prima/cargar";
-                    var respuesta = client.UploadString(new Uri(url), jsonDatos);
-                }
-
-                TempData["Mensaje"] = "Datos cargados exitosamente";
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = "Error al procesar archivo: " + ex.Message;
-                return View("Cargar");
-            }
         }
 
         // POST: Prima/Comparar
@@ -95,7 +52,7 @@ namespace PrimaEmitida.ClienteWeb.Controllers
                     client.Headers[HttpRequestHeader.ContentType] = JsonMediaType;
                     client.Encoding = UTF8Encoding.UTF8;
 
-                    string url = RutaApi + "prima/procesar";
+                    string url = RutaApi + "prima/procesar";  // ← Debe ser "procesar", NO "cargar"
                     var respuesta = client.UploadString(new Uri(url), "POST", "");
                     var datos = JsonConvert.DeserializeObject<List<DatosReferencia>>(respuesta);
 
