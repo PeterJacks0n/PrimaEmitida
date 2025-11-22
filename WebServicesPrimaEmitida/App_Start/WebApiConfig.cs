@@ -9,9 +9,10 @@ namespace WebServicesPrimaEmitida
     {
         public static void Register(HttpConfiguration config)
         {
-            // Configuración y servicios de Web API
+            // Habilitar CORS
+            config.EnableCors();
 
-            // Rutas de Web API
+            // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
