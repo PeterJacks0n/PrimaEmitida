@@ -42,11 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Core\DatosReferenciaDA.cs" />
+    <Compile Include="Core\DatosTransaccionalesDA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\PrimaEmitida.Entidades\PrimaEmitida.Entidades.csproj">
       <Project>{0c797031-163f-4bcd-a4b8-b1ba8dda3bc1}</Project>
