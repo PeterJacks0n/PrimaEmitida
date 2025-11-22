@@ -1,0 +1,82 @@
+﻿@model List<PrimaEmitida.Entidades.Core.DatosReferencia>
+
+@{
+    ViewBag.Title = "Comparación de Primas";
+}
+
+<div class="container mt-4">
+    <h2>@ViewBag.Title</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-success">@TempData["Mensaje"]</div>
+    }
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            @Html.ActionLink("Cargar Datos Transaccionales", "Cargar", null, new { @class = "btn btn-primary" })
+
+            @using (Html.BeginForm("Comparar", "Prima", FormMethod.Post, new { @class = "d-inline" }))
+            {
+                <button type="submit" class="btn btn-success">Procesar y Comparar</button>
+            }
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID Período</th>
+                <th>Presentación</th>
+                <th>Prima Emitida</th>
+                <th>Prima Contabilidad</th>
+                <th>Diferencia</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="@(item.Diferencia == 0 ? "table-success" : "table-danger")">
+                    <td>@item.IdPeriodo</td>
+                    <td>@item.Presentacion</td>
+                    <td>@(item.PrimaEmitida?.ToString("N2") ?? "N/A")</td>
+                    <td>@item.PrimaContabilidad.ToString("N2")</td>
+                    <td>@(item.Diferencia?.ToString("N2") ?? "N/A")</td>
+                    <td>
+                        @if (item.Diferencia == 0)
+                        {
+                            <span class="badge badge-success">✓ Correcto</span>
+                        }
+                        else if (item.Diferencia != null)
+                        {
+                            <span class="badge badge-danger">✗ Diferencia</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-warning">⚠ Pendiente</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <style>
+        .table-success {
+            background-color: #d4edda !important;
+        }
+
+        .table-danger {
+            background-color: #f8d7da !important;
+        }
+    </style>
+}
+
